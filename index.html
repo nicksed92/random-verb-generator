@@ -21,11 +21,16 @@
             padding: 10px 20px;
             font-size: 16px;
         }
+        #copyButton {
+            display: none;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <p id="phrase">Хуй там...</p>
     <button onclick="generatePhrase()">Создать фразу</button>
+    <button id="copyButton" onclick="copyText()">Копировать текст</button>
 
     <script>
         let verbs = [];
@@ -43,10 +48,22 @@
                 alert('Глаголы не загружены');
                 return;
             }
-            document.getElementById('phrase').textContent = 'Хуй там...'; // Очистка текста
+            document.getElementById('phrase').textContent = 'Хуй там '; // Очистка текста
             const randomVerbIndex = Math.floor(Math.random() * verbs.length);
             const randomVerb = verbs[randomVerbIndex];
-            document.getElementById('phrase').textContent += ' ' + randomVerb;
+            document.getElementById('phrase').textContent += randomVerb;
+            document.getElementById('copyButton').style.display = 'inline-block'; // Показываем кнопку копирования
+        }
+
+        function copyText() {
+            const textToCopy = document.getElementById('phrase').textContent;
+            const tempInput = document.createElement('input');
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert("Текст скопирован: " + textToCopy);
         }
     </script>
 </body>
