@@ -43,6 +43,7 @@
                 alert('Глаголы не загружены');
                 return;
             }
+            document.getElementById('phrase').textContent = 'Хуй там...'; // Очистка текста
             const randomVerbIndex = Math.floor(Math.random() * verbs.length);
             const randomVerb = verbs[randomVerbIndex];
             document.getElementById('phrase').textContent += ' ' + randomVerb;
