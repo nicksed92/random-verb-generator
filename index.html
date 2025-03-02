@@ -28,19 +28,25 @@
     <button onclick="generatePhrase()">Создать фразу</button>
 
     <script>
+        let verbs = [];
+
         // Загружаем данные из JSON файла
         fetch('verbs.json')
             .then(response => response.json())
             .then(data => {
-                const verbs = data.verbs;
-                
-                function generatePhrase() {
-                    const randomVerbIndex = Math.floor(Math.random() * verbs.length);
-                    const randomVerb = verbs[randomVerbIndex];
-                    document.getElementById('phrase').textContent += ' ' + randomVerb;
-                }
+                verbs = data.verbs;
             })
             .catch(error => console.error('Ошибка загрузки:', error));
+
+        function generatePhrase() {
+            if (verbs.length === 0) {
+                alert('Глаголы не загружены');
+                return;
+            }
+            const randomVerbIndex = Math.floor(Math.random() * verbs.length);
+            const randomVerb = verbs[randomVerbIndex];
+            document.getElementById('phrase').textContent += ' ' + randomVerb;
+        }
     </script>
 </body>
 </html>
