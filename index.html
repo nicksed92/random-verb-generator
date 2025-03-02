@@ -6,76 +6,41 @@
     <title>Генератор фраз</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
-        #result {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-        }
-        .loading {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-            display: none;
+        #phrase {
+            font-size: 24px;
+            margin-bottom: 20px;
         }
         button {
-            margin-top: 10px;
             padding: 10px 20px;
-            cursor: pointer;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
+    <p id="phrase">Хуй там...</p>
+    <button onclick="generatePhrase()">Создать фразу</button>
 
-<h1>Генератор фраз</h1>
-
-<p id="startPhrase">Мальчик вчера</p>
-
-<div class="loading" id="loading">Загрузка...</div>
-
-<div id="result"></div>
-
-<button onclick="generatePhrase()">Создать фразу</button>
-<button onclick="copyText()" id="copyButton" style="display: none;">Копировать текст</button>
-
-<!-- Подключаем JSON -->
-<script>
-    fetch('verbs.json')
-        .then(response => response.json())
-        .then(data => {
-            const verbs = data;
-
-            async function generatePhrase() {
-                const startPhrase = document.getElementById('startPhrase').innerText;
-                const randomVerb = getRandomVerb();
-                const result = startPhrase + ' ' + randomVerb;
-                document.getElementById('result').innerText = result;
-                document.getElementById('copyButton').style.display = 'inline-block';
-            }
-
-            function getRandomVerb() {
-                const randomIndex = Math.floor(Math.random() * verbs.length);
-                return verbs[randomIndex];
-            }
-
-            function copyText() {
-                const textToCopy = document.getElementById('result').innerText;
-                const tempInput = document.createElement('input');
-                tempInput.value = textToCopy;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-                alert("Текст скопирован: " + textToCopy);
-            }
-        })
-        .catch(error => console.error('Ошибка при загрузке глаголов:', error));
-</script>
-
+    <script>
+        // Загружаем данные из JSON файла
+        fetch('verbs.json')
+            .then(response => response.json())
+            .then(data => {
+                const verbs = data.verbs;
+                
+                function generatePhrase() {
+                    const randomVerbIndex = Math.floor(Math.random() * verbs.length);
+                    const randomVerb = verbs[randomVerbIndex];
+                    document.getElementById('phrase').textContent += ' ' + randomVerb;
+                }
+            })
+            .catch(error => console.error('Ошибка загрузки:', error));
+    </script>
 </body>
 </html>
